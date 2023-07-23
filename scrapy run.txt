@@ -1,0 +1,65 @@
+activate venv
+
+go to spider folder
+
+scrapy genspider bookspider books.toscrape.com ## name is bookspider and url is books.toscrape.com
+
+for css selector use scrapy shell and do pip install ipython it is a shell thats easier to read
+
+go to scrapy.cfg and add shell: ipython
+
+run scrapy shell in terminal
+
+fetch('url')
+
+response.css('article.product_pod' ) ## tags 
+response.css('article.product_pod').get() ## gets html of first tag
+
+books = response.css('article.product_pod' )
+
+book = books[0]
+
+In [8]: book.css('h3 a::text').get()
+Out[8]: 'A Light in the ...'
+
+In [9]: book.css('.product_price .price_color::text').get()
+Out[9]: '£51.77'
+
+In [15]: book.css('h3 a').attrib['href']
+Out[15]: 'catalogue/a-light-in-the-attic_1000/index.html'
+
+#scrapy shell is used to identify th css selectors then exit it by using exit command
+
+go one folder up from spiders parent folder and run "scrapy crawl spider_name"
+
+now to scrap next pages of the same website open "scrapy shell"
+see where the next page name is stored in inspect window
+In [4]: response.css('li.next a::attr(href)' ).get()
+Out[4]: 'catalogue/page-2.html'
+
+response.css('article.product_page')
+
+response.css('.product_main h1::text').get()
+
+In [12]: response.xpath("//ul[@class='breadcrumb']/li[@class='active']/preceding-sibling::li[1]/a/text()").get()   ##ul->class = breadcrumb->li active-> go to preceding sibling li[1] ->text  
+Out[12]: 'Religion'
+
+In [14]: response.xpath("//div[@id='product_description']/following-sibling::p/text()").get()
+gets product description
+
+
+
+In [15]: table_rows = response.css("table tr")
+
+In [16]: len(table_rows)
+Out[16]: 7
+
+In [17]: table_rows[1].css('td::text').get()
+Out[17]: 'Books'
+
+In [18]: table_rows[1].css('th::text').get()
+Out[18]: 'Product Type'
+
+
+In [19]: response.css('p.star-rating').attrib['class']
+Out[19]: 'star-rating Four'
