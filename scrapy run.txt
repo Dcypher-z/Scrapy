@@ -63,3 +63,6 @@ Out[18]: 'Product Type'
 
 In [19]: response.css('p.star-rating').attrib['class']
 Out[19]: 'star-rating Four'
+
+
+for cleaning data use pipelines and enable them in setting.py
