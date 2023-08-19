@@ -76,7 +76,7 @@ class SaveToMongoDBPipeline:
     
     def __init__(self):
         self.conn = pymongo.MongoClient(
-            'mongodb+srv://test:qwerty1234@cluster0.expa2ml.mongodb.net/'#use localhost, 27017 to store in local host
+           <connection string>#use localhost, 27017 to store in local host
         )
         db = self.conn['Books']
         self.collection = db['Books_tb']
