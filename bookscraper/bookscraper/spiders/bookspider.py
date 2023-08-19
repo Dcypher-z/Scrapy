@@ -1,5 +1,7 @@
 import scrapy
 from bookscraper.items import BookItem
+import random
+
 
 class BookspiderSpider(scrapy.Spider):
     name = "bookspider"
@@ -11,6 +13,17 @@ class BookspiderSpider(scrapy.Spider):
             'booksdata.json':{'format' : 'json', 'overwrite' : True}
         }
     }
+    
+    #these many user_agents are still not enough
+    user_agent_list = [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15'
+    ]
 
     def parse(self, response):#runs when response comes back from webpage
         books = response.css('article.product_pod')
@@ -38,7 +51,7 @@ class BookspiderSpider(scrapy.Spider):
                 book_url = "https://books.toscrape.com/" + relative_url
             else:
                 book_url = "https://books.toscrape.com/catalogue/" + relative_url
-            yield response.follow(book_url, callback = self.parse_book_page)#callback is used to run a function given in it after url is opened
+            yield response.follow(book_url, callback = self.parse_book_page, headers = {"User-Agents": self.user_agent_list[random.randint(0, len(self.user_agent_list)-1)]})#callback is used to run a function given in it after url is opened
             
         next_page = response.css('li.next a::attr(href)').get()
         

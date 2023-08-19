@@ -72,3 +72,14 @@ scrapy crawl -o data.csv -> add data after the data that is stored in file
 
 Add feed to setting.py to specify the format of data to be stored in
 after adding FEED to setting.py you can just run srcaper using 'scrapy crawl bookspider' 
+
+
+PART 8
+Fake User Agents & Browser Headers
+1) Why are we getting blocked
+2) Explaining and using user agents to byPass getting blocked
+3) explaining and using request headers to byPass getting blocked
+
+setup user agent in settings.py
+USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
+but this is not sufficient as you are same user making request again and again.
