@@ -24,6 +24,15 @@ SCRAPEOPS_NUM_RESULTS = 50
 SCRAPEOPS_FAKE_BROWSER_HEADER_ENDPOINT = 'https://headers.scrapeops.io/v1/browser-headers'
 SCRAPEOPS_FAKE_BROWSER_HEADER_ENABLED = True 
 
+
+ROTATING_PROXY_LIST = [
+   '50.47.75.221:5678',
+   '184.82.238.202:8080',
+   '144.76.163.25:21364',
+]
+#if you have rotating proxies in a file use
+#ROTATING_PROXY_LIST_PATH = "/my/path/proxies.txt"
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "bookscraper (+http://www.yourdomain.com)"
 
@@ -65,7 +74,8 @@ DOWNLOADER_MIDDLEWARES = {
    #"bookscraper.middlewares.BookscraperDownloaderMiddleware": 543,
    #"bookscraper.middlewares.ScrapeOpsFakeUserAgentMiddleware": 400,
    "bookscraper.middlewares.ScrapeOpsFakeBrowserHeaderAgentMiddleware": 400,
-   
+   'rotating_proxies.middlewares.RotatingProxyMiddleware':610,
+   'rotating_proxies.middlewares.BanDetectionMiddleware':620,
 }
 
 # Enable or disable extensions

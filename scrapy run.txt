@@ -93,3 +93,23 @@ for complex scraping set robots_obey to false
 
 we can either replace just the user agent in header or we can replace the whole header 
 cerating new middleware for it
+
+part 9 proxies
+
+1) What are proxies
+2) Why do we need them
+3) 3 most popular proxy integration methods
+4) How to integrate & rotate proxy lists
+5) How to use Rotating/Backconnect proxies
+6) How to use proxy APIs
+
+fake user agent and browser headers cannot change the ip from which requests are being made so website can blacklist a particular IP if they suspect that IP of scraping data.
+
+method - 1 : proxy list(freeproxylists.net, geonode.com/free-proxy-list)
+pros:
+    can get free proxy lists
+cons:
+    coz free they can be blacklisted or very high response time
+pip install scrapy-rotating-proxies
+    
+
