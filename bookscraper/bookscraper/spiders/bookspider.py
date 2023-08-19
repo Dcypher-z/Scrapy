@@ -10,7 +10,7 @@ class BookspiderSpider(scrapy.Spider):
     
     custom_settings = {#this will overwrite the FEED settings in settings.py 
         'FEEDS':{
-            'booksdata.json':{'format' : 'json', 'overwrite' : True}
+            'bookdata.json':{'format' : 'json', 'overwrite' : True}
         }
     }
     
