@@ -15,15 +15,15 @@ class BookspiderSpider(scrapy.Spider):
     }
     
     #these many user_agents are still not enough
-    user_agent_list = [
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15'
-    ]
+    # user_agent_list = [
+    #     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+    #     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+    #     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+    #     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+    #     'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+    #     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15',
+    #     'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15'
+    # ]
 
     def parse(self, response):#runs when response comes back from webpage
         books = response.css('article.product_pod')
@@ -51,7 +51,8 @@ class BookspiderSpider(scrapy.Spider):
                 book_url = "https://books.toscrape.com/" + relative_url
             else:
                 book_url = "https://books.toscrape.com/catalogue/" + relative_url
-            yield response.follow(book_url, callback = self.parse_book_page, headers = {"User-Agents": self.user_agent_list[random.randint(0, len(self.user_agent_list)-1)]})#callback is used to run a function given in it after url is opened
+            #yield response.follow(book_url, callback = self.parse_book_page, headers = {"User-Agents": self.user_agent_list[random.randint(0, len(self.user_agent_list)-1)]})#this is for statics use of new header defined in list above
+            yield response.follow(book_url, callback = self.parse_book_page,)#this is for use of dynamically generated header via an api
             
         next_page = response.css('li.next a::attr(href)').get()
         
@@ -60,7 +61,8 @@ class BookspiderSpider(scrapy.Spider):
                 next_page_url = "https://books.toscrape.com/" + next_page
             else:
                 next_page_url = "https://books.toscrape.com/catalogue/" + next_page
-            yield response.follow(next_page_url, callback = self.parse)
+            #yield response.follow(next_page_url, callback = self.parse , headers = {"User-Agents": self.user_agent_list[random.randint(0, len(self.user_agent_list)-1)]})
+            yield response.follow(next_page_url, callback = self.parse, )
             
     def parse_book_page(self, response):
         table_rows = response.css("table tr")

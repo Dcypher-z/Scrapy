@@ -83,3 +83,13 @@ Fake User Agents & Browser Headers
 setup user agent in settings.py
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
 but this is not sufficient as you are same user making request again and again.
+
+use middleware to rotate through all the fake user agents 
+use scrapops.io to get API key for fake user agents
+
+after writing user agent class in middle ware enable it in settings.py
+
+for complex scraping set robots_obey to false 
+
+we can either replace just the user agent in header or we can replace the whole header 
+cerating new middleware for it
