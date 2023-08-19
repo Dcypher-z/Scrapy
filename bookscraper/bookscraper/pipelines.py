@@ -7,6 +7,7 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 from forex_python.converter import CurrencyRates
+import pymongo
 
 class BookscraperPipeline:
     def process_item(self, item, spider):
@@ -70,4 +71,36 @@ class BookscraperPipeline:
             adapter['stars'] = 5
             
         return item
- 
+
+class SaveToMongoDBPipeline:
+    
+    def __init__(self):
+        self.conn = pymongo.MongoClient(
+            'mongodb+srv://test:qwerty1234@cluster0.expa2ml.mongodb.net/'#use localhost, 27017 to store in local host
+        )
+        db = self.conn['Books']
+        self.collection = db['Books_tb']
+        
+    def process_item(self, item, spider):
+        # book = {
+        #     "url": item["url"], 
+        #     "title": item["title"], 
+        #     "upc": item["upc"], 
+        #     "product_type": item["product_type"],
+        #     "price_excl_tax": item["price_excl_tax"], 
+        #     "price_incl_tax": item["price_incl_tax"], 
+        #     "tax": item["tax"], 
+        #     "availability": item["availability"], 
+        #     "num_reviews": item["num_reviews"], 
+        #     "stars": item["stars"], 
+        #     "category": item["category"], 
+        #     "description": item["description"], 
+        #     "price": item["price"]
+        # }
+        
+        self.collection.insert_one(dict(item)).inserted_id
+        return item
+    
+    def close_spider(self, spider):
+        self.conn.close()
+        

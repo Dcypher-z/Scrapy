@@ -66,3 +66,9 @@ Out[19]: 'star-rating Four'
 
 
 for cleaning data use pipelines and enable them in setting.py
+
+scrapy crawl -O data.csv -> adds all the data again if file exists
+scrapy crawl -o data.csv -> add data after the data that is stored in file
+
+Add feed to setting.py to specify the format of data to be stored in
+after adding FEED to setting.py you can just run srcaper using 'scrapy crawl bookspider' 
